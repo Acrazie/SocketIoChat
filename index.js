@@ -51,10 +51,9 @@ if (cluster.isPrimary) {
       try {
         result = await db.run('INSERT INTO messages (content, client_offset) VALUES (?, ?)', msg, clientOffset);
       } catch (e) {
-        if (e.errno === 19 /* SQLITE_CONSTRAINT */ ) {
+        if (e.errno === 19) {
           callback();
         } else {
-          // nothing to do, just let the client retry
         }
         return;
       }
@@ -71,7 +70,6 @@ if (cluster.isPrimary) {
           }
         )
       } catch (e) {
-        // something went wrong
       }
     }
   });
